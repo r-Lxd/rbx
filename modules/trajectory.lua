@@ -8,14 +8,10 @@ BEAM.Segments = 20
 BEAM.Width0 = 0.1
 BEAM.Width1 = 0.1
 
-local TimerClass = require(script:WaitForChild("Timer"))
-
--- Class
+local TimerClass = loadstring(game:HttpGet("https://raw.githubusercontent.com/r-Lxd/rbx/main/modules/timer.lua"))()
 
 local Trajectory = {}
 Trajectory.__index = Trajectory
-
--- Private Functions
 
 local function reflect(v, n)
 	return -2*v:Dot(n)*n + v
@@ -56,8 +52,6 @@ local function drawBeamProjectile(g, v0, x0, t)
 	Beam.Parent = TERRAIN
 end
 
--- Public Constructors
-
 function Trajectory.new(gravity)
 	local self = setmetatable({}, Trajectory)
 	
@@ -70,15 +64,11 @@ function Trajectory.new(gravity)
 	return self
 end
 
--- Public Methods
-
 function Trajectory:Velocity(v0, t)
-	-- g*t + v0
 	return self.Gravity*t + v0
 end
 
 function Trajectory:Position(x0, v0, t)
-	-- 0.5*g*t^2 + v0*t + x0
 	return 0.5*self.Gravity*t*t + v0*t + x0
 end
 
@@ -171,7 +161,5 @@ function Trajectory:Draw(path)
 		drawBeamProjectile(self.Gravity, v0, x0, t)
 	end
 end
-
---
 
 return Trajectory
